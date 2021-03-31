@@ -1,13 +1,9 @@
 import csv
 
 class FramesSerializer:
-    def __init__(self, filename, header):
-        self.filename = filename
+    def __init__(self, file, header):
         self.header = header
-
-        with open(filename, 'w') as f:
-            self.writer = csv.writer(f, delimiter=',')
+        self.writer = csv.writer(file, delimiter=',')
 
     def write_header(self):
         self.writer.writerow(self.header)
-
