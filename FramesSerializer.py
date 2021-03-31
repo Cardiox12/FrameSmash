@@ -7,3 +7,6 @@ class FramesSerializer:
 
     def write_header(self):
         self.writer.writerow(self.header)
+
+    def write_data(self, row):
+        self.writer.writerow(row)
