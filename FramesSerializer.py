@@ -1,5 +1,6 @@
 import csv
 
+
 class FramesSerializer:
     def __init__(self, file, header):
         self.header = header

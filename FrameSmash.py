@@ -6,6 +6,8 @@ class FrameSmash:
     NEXT_KEY = ord('n')
     PREV_KEY = ord('b')
     MAX_CLICK = 4
+    NA_CHAR = "."
+
     def __init__(self, path):
         self.path = path
         self.click_count = 0
@@ -16,7 +18,7 @@ class FrameSmash:
         self.appname = "frame"
         self.cap = None
 
-        self.header = ["Header"] + [f"{c}{i}" for i in range(4) for c in ['X', 'Y']] + [f"feat{i}" for i in range(4)]
+        self.header = ["Frame"] + [f"{c}{i}" for i in range(4) for c in ['X', 'Y']] + [f"feat{i}" for i in range(4)]
         self.csv_name = None
         self.serializer = None
 
@@ -44,9 +46,9 @@ class FrameSmash:
                     break
                 elif key == FrameSmash.NEXT_KEY:
                     self.get_next_frame()
-                    self.serialize()
-                    self.click_buffer = []
-                    self.click_count = 0
+                    if self.click_count != 0:
+                        self.serialize()
+                    self.reset_click_buffer()
                 elif key == FrameSmash.PREV_KEY:
                     self.get_prev_frame()
                 elif cv2.getWindowProperty(self.appname, cv2.WND_PROP_VISIBLE) < 1:
@@ -54,6 +56,10 @@ class FrameSmash:
 
         self.cap.release()
         cv2.destroyAllWindows()
+
+    def reset_click_buffer(self):
+        self.click_buffer = []
+        self.click_count = 0
 
     def get_next_frame(self):
         ret, self.frame = self.cap.read()
@@ -81,6 +87,9 @@ class FrameSmash:
     def serialize(self):
         features = [item[-1] for item in self.click_buffer]
         clicks = [coord for item in self.click_buffer for coord in item[:-1]]
+
+        features = features + [FrameSmash.NA_CHAR] * (FrameSmash.MAX_CLICK - len(features))
+        clicks = clicks + [FrameSmash.NA_CHAR] * (FrameSmash.MAX_CLICK - len(clicks))
         row = [self.frame_index] + clicks + features
         self.serializer.write_data(row)
 
