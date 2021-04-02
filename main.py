@@ -1,7 +1,14 @@
 from FrameSmash import FrameSmash
+import sys
 
-path = "./data/cross.avi"
+usage = "usage: ./main.py video.avi"
 
-fm = FrameSmash(path)
-fm.setup()
-fm.run()
+if len(sys.argv) >= 2:
+    path = sys.argv[1]
+    print(path)
+
+    fm = FrameSmash(path)
+    fm.setup()
+    fm.run()
+else:
+    print(usage)
