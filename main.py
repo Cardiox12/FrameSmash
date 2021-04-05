@@ -1,14 +1,11 @@
 from FrameSmash import FrameSmash
-import sys
+from PyQt5.QtWidgets import QApplication, QFileDialog
 
-usage = "usage: ./main.py video.avi"
+app = QApplication([])
+filename, mode = QFileDialog.getOpenFileName(None, "Select File")
 
-if len(sys.argv) >= 2:
-    path = sys.argv[1]
-    print(path)
-
-    fm = FrameSmash(path)
+if len(filename) != 0:
+    fm = FrameSmash(filename)
     fm.setup()
     fm.run()
-else:
-    print(usage)
+

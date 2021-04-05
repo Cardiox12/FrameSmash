@@ -1,5 +1,6 @@
 import cv2
 from FramesSerializer import FramesSerializer
+import os
 
 class FrameSmash:
     QUIT_KEY = ord('q')
@@ -7,6 +8,7 @@ class FrameSmash:
     PREV_KEY = ord('b')
     MAX_CLICK = 4
     NA_CHAR = "."
+    EXPORT_DIR = "export"
 
     def __init__(self, path):
         self.path = path
@@ -26,7 +28,11 @@ class FrameSmash:
         self.cap = cv2.VideoCapture(self.path)
         cv2.namedWindow(self.appname, cv2.WINDOW_GUI_NORMAL)
         cv2.setMouseCallback(self.appname, self.on_mouse)
-        self.csv_name = self._get_csv_filename(self.path)
+        self.csv_name = FrameSmash.EXPORT_DIR + "/" + self._get_csv_filename(self.path)
+        print(self.csv_name)
+
+        if not os.path.exists(FrameSmash.EXPORT_DIR):
+            os.mkdir(FrameSmash.EXPORT_DIR)
 
     def run(self):
         with open(self.csv_name, "w") as f:
@@ -51,8 +57,6 @@ class FrameSmash:
                     self.reset_click_buffer()
                 elif key == FrameSmash.PREV_KEY:
                     self.get_prev_frame()
-                elif cv2.getWindowProperty(self.appname, cv2.WND_PROP_VISIBLE) < 1:
-                    break
 
         self.cap.release()
         cv2.destroyAllWindows()
