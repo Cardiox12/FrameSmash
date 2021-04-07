@@ -93,7 +93,7 @@ class FrameSmash:
         clicks = [coord for item in self.click_buffer for coord in item[:-1]]
 
         features = features + [FrameSmash.NA_CHAR] * (FrameSmash.MAX_CLICK - len(features))
-        clicks = clicks + [FrameSmash.NA_CHAR] * (FrameSmash.MAX_CLICK - len(clicks))
+        clicks = clicks + [FrameSmash.NA_CHAR] * (FrameSmash.MAX_CLICK * 2 - len(clicks))
         row = [self.frame_index] + clicks + features
         self.serializer.write_data(row)
 
