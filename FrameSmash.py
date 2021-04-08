@@ -43,7 +43,7 @@ class FrameSmash:
             self.frame_buffer.append(self.frame)
 
             while True:
-                gray = cv2.cvtColor(self.frame, cv2.COLOR_BGR2GRAY)
+                gray = cv2.cvtColor(self.frame, cv2.COLOR_RGB2RGBA)
                 cv2.imshow(self.appname, gray)
 
                 key = cv2.waitKey(1) & 0xFF
