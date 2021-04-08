@@ -2,6 +2,7 @@ import cv2
 from FramesSerializer import FramesSerializer
 import os
 
+
 class FrameSmash:
     QUIT_KEY = ord('q')
     NEXT_KEY = ord('n')
