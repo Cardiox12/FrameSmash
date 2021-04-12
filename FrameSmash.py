@@ -30,13 +30,12 @@ class FrameSmash:
         cv2.namedWindow(self.appname, cv2.WINDOW_GUI_NORMAL)
         cv2.setMouseCallback(self.appname, self.on_mouse)
         self.csv_name = FrameSmash.EXPORT_DIR + "/" + self._get_csv_filename(self.path)
-        print(self.csv_name)
 
         if not os.path.exists(FrameSmash.EXPORT_DIR):
             os.mkdir(FrameSmash.EXPORT_DIR)
 
     def run(self):
-        with open(self.csv_name, "w") as f:
+        with open(self.csv_name, "w", newline='') as f:
             self.serializer = FramesSerializer(f, self.header)
             self.serializer.write_header()
 
