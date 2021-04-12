@@ -6,6 +6,6 @@ But if you're interested, you can still read the code. :)
 
 # How to use
 
-| n          | b              | esc          | left-click    | right-click  |
+| n          | b              | q            | left-click    | right-click  |
 |------------|----------------|--------------|---------------|--------------|
 | next frame | previous frame | quit program | false feature | true feature |
