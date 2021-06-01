@@ -59,8 +59,7 @@ class FrameSmash:
             self.serializer = FramesSerializer(f, self.header)
             self.serializer.write_header()
 
-            ret, self.frame = self.cap.read()
-            self.frame_buffer.append(self.frame)
+            self.get_next_frame()
 
             while True:
                 gray = cv2.cvtColor(self.frame, cv2.COLOR_RGB2RGBA)
