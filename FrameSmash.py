@@ -59,7 +59,7 @@ class FrameSmash:
             self.serializer = FramesSerializer(f, self.header)
             self.serializer.write_header()
 
-            self.get_next_frame()
+            self.init_first_frame()
 
             while True:
                 gray = cv2.cvtColor(self.frame, cv2.COLOR_RGB2RGBA)
@@ -76,9 +76,17 @@ class FrameSmash:
                     self.reset_click_buffer()
                 elif self.is_prev_key():
                     self.get_prev_frame()
+                    if self.click_count != 0:
+                        self.serialize()
+                    self.reset_click_buffer()
 
         self.cap.release()
         cv2.destroyAllWindows()
+
+    def init_first_frame(self):
+        ret, self.frame = self.cap.read()
+        self.frame_buffer.append(self.frame)
+        self.frame = self.frame_buffer[self.frame_index]
 
     def reset_click_buffer(self):
         self.click_buffer = []
@@ -87,8 +95,8 @@ class FrameSmash:
     def get_next_frame(self):
         ret, self.frame = self.cap.read()
         self.frame_buffer.append(self.frame)
-        self.frame = self.frame_buffer[self.frame_index]
         self.frame_index += 1
+        self.frame = self.frame_buffer[self.frame_index]
 
     def get_prev_frame(self):
         self.frame_index -= 1
